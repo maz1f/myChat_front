@@ -13,16 +13,19 @@ const login = async () => {
     });
     localStorage.access_token = response.data.token;
     localStorage.refresh_token = response.data.refreshToken;
+    localStorage.isAuth = true;
     console.log(`${localStorage.access_token} \n ${localStorage.refresh_token}`)
   } catch(e) {
     alert(e.response.data.message)
   }
+  await router.push('/');
 }
 
 import MyButton from "@/components/UI/MyButton.vue";
 import MyInput from "@/components/UI/MyInput.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import axios from "axios";
+import router from "@/router/router.js";
 </script>
 
 <template>

@@ -2,6 +2,7 @@ import { createMemoryHistory, createRouter } from 'vue-router'
 import Main from "@/pages/Main.vue";
 import Login from "@/pages/Login.vue";
 import Registration from "@/pages/Registration.vue";
+import Logout from "@/pages/Logout.vue";
 
 
 
@@ -17,6 +18,11 @@ const routes = [
     {
         path: '/registration',
         component: Registration
+    },
+    {
+        path: '/logout',
+        component: Logout,
+        props: true
     }
 ]
 

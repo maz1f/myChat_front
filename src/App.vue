@@ -1,10 +1,14 @@
 <script setup>
 
 import Navbar from "@/components/Navbar.vue";
+import {ref} from "vue";
+
+const isAuth = ref(localStorage.isAuth);
+
 </script>
 
 <template>
-  <navbar></navbar>
+  <navbar v-model="isAuth"></navbar>
   <div class="app">
     <RouterView></RouterView>
   </div>
