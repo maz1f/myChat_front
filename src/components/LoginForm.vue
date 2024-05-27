@@ -1,6 +1,6 @@
 <script setup>
 import {ref} from "vue";
-
+import VueJwtDecode from "vue-jwt-decode"
 
 const username = ref('')
 const password = ref('')
@@ -14,7 +14,9 @@ const login = async () => {
     localStorage.access_token = response.data.token;
     localStorage.refresh_token = response.data.refreshToken;
     localStorage.isAuth = true;
+    localStorage.name = VueJwtDecode.decode(localStorage.access_token).sub;
     console.log(`${localStorage.access_token} \n ${localStorage.refresh_token}`)
+    location.reload();
   } catch(e) {
     alert(e.response.data.message)
   }

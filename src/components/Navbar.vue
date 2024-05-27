@@ -1,24 +1,8 @@
 <script setup>
 
 import MyButton from "@/components/UI/MyButton.vue";
-import router from "@/router/router.js";
-import {onMounted, onUpdated} from "vue";
 
 const model = defineModel();
-
-function update() {
-  if (model.value === 'false') {
-    localStorage.isAuth = true;
-    model.value = 'true';
-  }
-  else {
-    localStorage.isAuth = false;
-    model.value = 'false';
-  }
-
-}
-
-console.log(model);
 
 </script>
 
@@ -29,7 +13,6 @@ console.log(model);
       <my-button v-if="model === 'false'" @click="$router.push('/login');">Login</my-button>
       <my-button v-else v-model="model" @click="$router.push('/logout');">Logout</my-button>
       <my-button style="margin-left: 5px;" @click="$router.push('/registration')">Registration</my-button>
-      <my-button style="margin-left: 5px;" @click="update">{{model}}</my-button>
     </div>
   </div>
 </template>

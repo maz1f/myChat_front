@@ -1,22 +1,24 @@
 <script setup>
 
-import axios from "axios";
 import router from "@/router/router.js";
 import MyButton from "@/components/UI/MyButton.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
-import {onUpdated} from "vue";
+import axios from "axios";
 
 const logout = async() => {
   try {
-    /*const response = await axios.post('http://localhost:5050/logout', {
+    const response = await axios.post('http://localhost:5050/customLogout', {
       "token": `${localStorage.refresh_token}`
-    });*/
+    });
+    console.log(response);
     localStorage.removeItem("access_token")
     localStorage.removeItem("refresh_token")
-    localStorage.isAuth = "false";
+    localStorage.isAuth = false;
+    localStorage.name = "Anonimus";
     console.log("Logout is complete");
+    location.reload();
   } catch(e) {
-    alert(e.response.data.message)
+    alert(e)
   }
   await router.push('/');
 }
