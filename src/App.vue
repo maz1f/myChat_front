@@ -2,6 +2,7 @@
 
 import Navbar from "@/components/Navbar.vue";
 import {ref} from "vue";
+import Chats from "@/components/Chats.vue";
 
 const isAuth = ref(localStorage.isAuth);
 
@@ -9,8 +10,13 @@ const isAuth = ref(localStorage.isAuth);
 
 <template>
   <navbar v-model="isAuth"></navbar>
-  <div class="app">
-    <RouterView></RouterView>
+  <div style="display: flex">
+    <div>
+      <chats></chats>
+    </div>
+    <div class="app">
+      <RouterView></RouterView>
+    </div>
   </div>
 
   <main>

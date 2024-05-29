@@ -2,6 +2,7 @@
 import axios from "axios";
 import VueJwtDecode from "vue-jwt-decode"
 import {ref} from "vue";
+import MyButton from "@/components/UI/MyButton.vue";
 
 
 const name = ref(localStorage.name);
@@ -21,11 +22,24 @@ const checkRefresh = async() => {
     }
 }
 
+const getChats = async() => {
+  await checkRefresh();
+  const chats = await axios.get('http://localhost:5050/getChats',
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.access_token}`
+        }
+      })
+  console.log(chats.data.users);
+  localStorage.users = chats.data.users;
+}
+
 </script>
 
 <template>
 <div>
   <h2>Hello, {{name}}</h2>
+  <my-button @click="checkRefresh">refresh</my-button>
 </div>
 </template>
 

@@ -15,6 +15,14 @@ const login = async () => {
     localStorage.refresh_token = response.data.refreshToken;
     localStorage.isAuth = true;
     localStorage.name = VueJwtDecode.decode(localStorage.access_token).sub;
+    const chats = await axios.get('http://localhost:5050/getChats',
+        {
+          headers: {
+            'Authorization': `Bearer ${localStorage.access_token}`
+          }
+        })
+    console.log(chats.data.users);
+    localStorage.users = chats.data.users;
     console.log(`${localStorage.access_token} \n ${localStorage.refresh_token}`)
     location.reload();
   } catch(e) {
