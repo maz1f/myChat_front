@@ -4,7 +4,6 @@ import VueJwtDecode from "vue-jwt-decode"
 import {ref} from "vue";
 import MyButton from "@/components/UI/MyButton.vue";
 
-
 const name = ref(localStorage.name);
 
 const checkRefresh = async() => {

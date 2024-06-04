@@ -3,6 +3,7 @@ import Main from "@/pages/Main.vue";
 import Login from "@/pages/Login.vue";
 import Registration from "@/pages/Registration.vue";
 import Logout from "@/pages/Logout.vue";
+import Chat from "@/pages/Chat.vue";
 
 
 
@@ -21,8 +22,11 @@ const routes = [
     },
     {
         path: '/logout',
-        component: Logout,
-        props: true
+        component: Logout
+    },
+    {
+        path: '/chat',
+        component: Chat
     }
 ]
 
