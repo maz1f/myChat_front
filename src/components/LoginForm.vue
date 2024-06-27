@@ -7,20 +7,16 @@ const password = ref('')
 
 const login = async () => {
   try {
-    const response = await axios.post('http://localhost:5050/login', {
+    const response = await axios.post('/login', {
       "username": username.value,
       "password": password.value
     });
+    axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
     localStorage.access_token = response.data.token;
     localStorage.refresh_token = response.data.refreshToken;
     localStorage.isAuth = true;
     localStorage.name = VueJwtDecode.decode(localStorage.access_token).sub;
-    const chats = await axios.get('http://localhost:5050/getChats',
-        {
-          headers: {
-            'Authorization': `Bearer ${localStorage.access_token}`
-          }
-        })
+    const chats = await axios.get('getChats', {});
     console.log(chats.data.users);
     localStorage.users = chats.data.users;
     console.log(`${localStorage.access_token} \n ${localStorage.refresh_token}`)

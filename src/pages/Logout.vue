@@ -7,7 +7,7 @@ import axios from "axios";
 
 const logout = async() => {
   try {
-    const response = await axios.post('http://localhost:5050/customLogout', {
+    const response = await axios.post('/customLogout', {
       "token": `${localStorage.refresh_token}`
     });
     console.log(response);

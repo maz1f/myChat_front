@@ -14,15 +14,11 @@ const send = async () => {
   try {
     const sender = VueJwtDecode.decode(localStorage.access_token).sub;
 
-    const response = await axios.post('http://localhost:5050/send', {
+    const response = await axios.post('send', {
       "message": newMessage.value,
       "sender": sender,
       "recipient": "user"
-    }, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.access_token}`
-      }
-    });
+    }, {});
     const currentDate = new Date().toJSON();
     const message = {
       "message": newMessage.value,

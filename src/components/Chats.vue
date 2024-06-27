@@ -2,7 +2,6 @@
 
 import ChatPreview from "@/components/UI/ChatPreview.vue";
 import axios from "axios";
-import VueJwtDecode from "vue-jwt-decode"
 import {ref} from "vue";
 import {store} from "@/store/store.js";
 import router from "@/router/router.js";
@@ -11,20 +10,14 @@ const users = ref(localStorage.users.split(','));
 
 const getMessages = async (recipient) => {
   try {
-    const sender = VueJwtDecode.decode(localStorage.access_token).sub;
-    console.log(`http://localhost:5050/${sender}/${recipient}`);
-    const messages = axios.get(`http://localhost:5050/${sender}/${recipient}`, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.access_token}`
-    }
-    }).then(async res => {
-      await store.dispatch('setSentMessages', res.data.sentMessages);
-      await store.dispatch('setReceivedMessages', res.data.receivedMessages);
-    });
+    const sender = localStorage.name;
+    const messages = await axios.get(`/${sender}/${recipient}`, {});
+    await store.dispatch('setSentMessages', messages.data.sentMessages);
+    await store.dispatch('setReceivedMessages', messages.data.receivedMessages);
     await router.push('/chat');
 
   } catch(e) {
-    alert(e.response.data.message)
+    alert(e);
   }
 }
 
