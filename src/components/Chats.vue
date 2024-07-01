@@ -12,9 +12,8 @@ const getMessages = async (recipient) => {
   try {
     const sender = localStorage.name;
     const messages = await axios.get(`/${sender}/${recipient}`, {});
-    await store.dispatch('setSentMessages', messages.data.sentMessages);
-    await store.dispatch('setReceivedMessages', messages.data.receivedMessages);
-    await router.push('/chat');
+    await store.dispatch('setMessages', messages.data.messages);
+    await router.push(`/chat/${recipient}`);
 
   } catch(e) {
     alert(e);

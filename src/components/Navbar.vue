@@ -5,7 +5,12 @@ import router from "@/router/router.js";
 const model = defineModel();
 
 const clickLogo = () => {
-
+  const elements = document.getElementsByClassName("chatPreview");
+  for (const el of elements) {
+    for (const child of el.children) {
+      child.checked = false;
+    }
+  }
   router.push('/');
 }
 

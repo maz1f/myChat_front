@@ -2,44 +2,17 @@ import {createStore} from "vuex";
 
 export const store = createStore({
     state: () =>({
-        sentMessages: [
-        ],
-        receivedMessages: [
-        ]
+        messages: []
     }),
     mutations: {
-        setSentMessages: (state, messages) => {
-            state.sentMessages = messages;
-        },
-        setReceivedMessages: (state, messages) => {
-            state.receivedMessages = messages;
-        },
-        addSentMessage: (state, message) => {
-            state.sentMessages = [
-                ...state.sentMessages,
-                message
-            ]
-        },
-        addReceivedMessage: (state, message) => {
-            state.receivedMessages = [
-                ...state.receivedMessages,
-                message
-            ]
+        setMessages: (state, messages) => {
+            state.messages = messages;
         }
 
     },
     actions: {
-        setSentMessages: (context, messages) => {
-            context.commit('setSentMessages', messages);
-        },
-        setReceivedMessages: (context, messages) => {
-            context.commit('setReceivedMessages', messages);
-        },
-        addSentMessage: (context, message) => {
-            context.commit('addSentMessage', message);
-        },
-        addReceivedMessage: (context, message) => {
-            context.commit('setReceivedMessages', message);
+        setMessages: (context, messages) => {
+            context.commit('setMessages', messages);
         }
     }
 })

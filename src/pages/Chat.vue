@@ -7,26 +7,20 @@ import MyButton from "@/components/UI/MyButton.vue";
 import axios from "axios";
 import {ref} from "vue";
 import VueJwtDecode from "vue-jwt-decode"
-
+import {useRoute} from "vue-router";
 const newMessage = ref("");
 
+const route = useRoute();
+const recipient = route.params.username;
 const send = async () => {
   try {
-    const sender = VueJwtDecode.decode(localStorage.access_token).sub;
+    const sender = VueJwtDecode.decode(localStorage.refresh_token).sub;
 
     const response = await axios.post('send', {
       "message": newMessage.value,
       "sender": sender,
-      "recipient": "user"
+      "recipient": recipient
     }, {});
-    const currentDate = new Date().toJSON();
-    const message = {
-      "message": newMessage.value,
-      "sender": sender,
-      "recipient": "user",
-      "sentDate": currentDate
-    }
-    await store.dispatch('addSentMessage', message);
     newMessage.value = "";
   } catch(e) {
     alert(e.response.data.message)
@@ -36,10 +30,9 @@ const send = async () => {
 </script>
 
 <template>
+  <h1>{{$route.params.username}}</h1>
 <div class="chat">
-  <div class="sentMessages">
-    <div v-for="msg in store.state.sentMessages" :key="msg.sentDate">
-      <message style="background-color: lightblue">
+      <message v-for="msg in store.state.messages" :key="msg.sentDate" :type="msg.type === 'sent' ? 'sent' : 'received'">
         <template v-slot:username>
           {{msg.sender}}
         </template>
@@ -50,24 +43,6 @@ const send = async () => {
           {{msg.message}}
         </template>
       </message>
-    </div>
-  </div>
-
-  <div class="receivedMessages">
-    <div v-for="msg in store.state.receivedMessages" :key="msg.sentDate">
-      <message style="background-color: pink">
-        <template v-slot:username>
-          {{msg.sender}}
-        </template>
-        <template v-slot:date>
-          {{msg.sentDate.slice(11,16)}}
-        </template>
-        <template v-slot:text>
-          {{msg.message}}
-        </template>
-      </message>
-    </div>
-  </div>
 </div>
 
   <form @submit.prevent>
@@ -82,6 +57,7 @@ const send = async () => {
 <style scoped>
 .chat {
   display: flex;
+  flex-direction: column;
 }
 .sendMessageForm {
   display: flex;

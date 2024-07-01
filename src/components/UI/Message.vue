@@ -1,9 +1,11 @@
 <script setup>
-
+defineProps({
+  type: String
+})
 </script>
 
 <template>
-  <div class="msg">
+  <div class="msg" :class="type">
     <div class="message_data">
       <div class="username">
         <slot name="username"></slot>
@@ -24,6 +26,7 @@
   border-radius: 10px;
   display: flex;
   justify-content:space-between;
+  margin: 5px 0;
 }
 .username {
   font-size: 15px;
@@ -43,5 +46,13 @@
   font-size: 12px;
   margin-left: 3px;
   margin-bottom: 2px;
+}
+.sent {
+  align-self: flex-end;
+  background-color: aliceblue;
+}
+.received {
+  align-self: flex-start;
+  background-color: whitesmoke;
 }
 </style>

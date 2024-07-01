@@ -25,7 +25,7 @@ const routes = [
         component: Logout
     },
     {
-        path: '/chat',
+        path: '/chat/:username',
         component: Chat
     }
 ]
