@@ -8,10 +8,14 @@ import router from "@/router/router.js";
 
 const users = ref(localStorage.users.split(','));
 
+const setChat = async(recipient) => {
+  await getMessages(recipient);
+}
+
 const getMessages = async (recipient) => {
   try {
     const sender = localStorage.name;
-    const messages = await axios.get(`/${sender}/${recipient}`, {});
+    const messages = await axios.get(`/chat/${sender}/${recipient}`, {});
     await store.dispatch('setMessages', messages.data.messages);
     await router.push(`/chat/${recipient}`);
 
@@ -25,7 +29,7 @@ const getMessages = async (recipient) => {
 <template>
   <div class="chats_menu">
    <div class="chats" v-for="user in users" :key="user">
-      <chat-preview :radio_id="user" @change="getMessages(user)">{{user}}</chat-preview>
+      <chat-preview :radio_id="user" @change="setChat(user)">{{user}}</chat-preview>
    </div>
   </div>
 </template>

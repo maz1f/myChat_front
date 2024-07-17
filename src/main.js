@@ -13,3 +13,4 @@ app
     .use(router)
     .use(store)
     .mount('#app')
+

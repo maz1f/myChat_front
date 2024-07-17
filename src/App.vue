@@ -3,19 +3,24 @@
 import Navbar from "@/components/Navbar.vue";
 import {ref} from "vue";
 import Chats from "@/components/Chats.vue";
+import router from "@/router/router.js";
 
 const isAuth = ref(localStorage.isAuth);
-
+if (!isAuth) {
+  router.push('/login');
+}
 </script>
 
 <template>
-  <navbar v-model="isAuth"></navbar>
-  <div style="display: flex">
-    <div>
-      <chats></chats>
-    </div>
-    <div class="app">
-      <RouterView></RouterView>
+  <div class="myChat">
+    <navbar v-model="isAuth"></navbar>
+    <div style="display: flex; height: 100%;" >
+      <div>
+        <chats></chats>
+      </div>
+      <div class="app">
+        <RouterView></RouterView>
+      </div>
     </div>
   </div>
 
@@ -31,5 +36,10 @@ const isAuth = ref(localStorage.isAuth);
 }
 .app {
   padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+.myChat {
+  height: 60vh;
 }
 </style>

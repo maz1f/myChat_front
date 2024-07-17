@@ -16,6 +16,7 @@ axios.interceptors.response.use(resp => {
         if (status === 200) {
             error.config.headers.Authorization = `Bearer ${data.token}`;
             axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+            localStorage.access_token = data.token;
             return axios(error.config);
         }
     }
