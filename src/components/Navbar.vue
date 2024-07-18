@@ -2,7 +2,7 @@
 
 import MyButton from "@/components/UI/MyButton.vue";
 import router from "@/router/router.js";
-const model = defineModel();
+import {store} from "@/store/store.js";
 
 const clickLogo = () => {
   const elements = document.getElementsByClassName("chatPreview");
@@ -20,8 +20,8 @@ const clickLogo = () => {
   <div class="navbar">
     <div class="site_logo" @click="clickLogo">MyChat</div>
     <div class="navbar-btns">
-      <my-button v-if="model === 'false'" @click="$router.push('/login');">Login</my-button>
-      <my-button v-else v-model="model" @click="$router.push('/logout');">Logout</my-button>
+      <my-button v-if="!store.state.isAuth" @click="$router.push('/login');">Login</my-button>
+      <my-button v-else-if="store.state.isAuth" @click="$router.push('/logout');">Logout</my-button>
       <my-button style="margin-left: 5px;" @click="$router.push('/registration')">Registration</my-button>
     </div>
   </div>

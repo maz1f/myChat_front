@@ -2,11 +2,8 @@
 
 import ChatPreview from "@/components/UI/ChatPreview.vue";
 import axios from "axios";
-import {ref} from "vue";
 import {store} from "@/store/store.js";
 import router from "@/router/router.js";
-
-const users = ref(localStorage.users.split(','));
 
 const setChat = async(recipient) => {
   await getMessages(recipient);
@@ -28,7 +25,7 @@ const getMessages = async (recipient) => {
 
 <template>
   <div class="chats_menu">
-   <div class="chats" v-for="user in users" :key="user">
+   <div class="chats" v-for="user in store.state.chats" :key="user">
       <chat-preview :radio_id="user" @change="setChat(user)">{{user}}</chat-preview>
    </div>
   </div>

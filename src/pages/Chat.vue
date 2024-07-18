@@ -4,49 +4,9 @@ import {store} from "@/store/store.js";
 import Message from "@/components/UI/Message.vue";
 import MyInput from "@/components/UI/MyInput.vue";
 import MyButton from "@/components/UI/MyButton.vue";
-import {onMounted, onUnmounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import VueJwtDecode from "vue-jwt-decode"
 import {onBeforeRouteUpdate, useRoute} from "vue-router";
-import SockJS from "sockjs-client";
-import Stomp from "webstomp-client";
-
-// websocket
-
-let stompClient = null;
-
-const connect = () => {
-  const socket = new SockJS("http://localhost:5050/ws");
-  stompClient = Stomp.over(socket);
-  stompClient.connect(
-      {
-        Authorization: `Bearer ${localStorage.access_token}`
-      },
-      frame => {
-        stompClient.subscribe(`/topic/${localStorage.name}/messages`, onMessageReceived)
-      },error => {
-        console.log(error);
-      }
-  );
-
-};
-
-
-const disconnect = () => {
-  if (stompClient !== null) {
-    stompClient.disconnect()
-  }
-  console.log("Disconnected")
-}
-
-const onMessageReceived = async (msg) => {
-  const response = JSON.parse(msg.body);
-  await store.dispatch('setMessages', response.messages);
-  changeScroll();
-};
-
-const checkHeight = () => {
-  console.log(`scrollDiv: ${scrollDiv.scrollHeight}`);
-}
 
 const sendMessage = () => {
   if (newMessage.value.trim() !== "") {
@@ -56,12 +16,15 @@ const sendMessage = () => {
       sender: sender,
       recipient: recipient.value
     };
-    stompClient.send("/app/send", JSON.stringify(message), {});
+    store.state.stompClient.send("/app/send", JSON.stringify(message), {});
     newMessage.value = "";
   }
 };
-
 //
+
+const messages = computed(() => {
+  return store.state.messages;
+});
 
 var scrollDiv = null;
 
@@ -72,12 +35,15 @@ const changeScroll = () => {
 onMounted(() => {
   scrollDiv = document.getElementById("chat");
   changeScroll();
-  connect();
 })
 
-onUnmounted(() => {
-  disconnect();
+
+watch(messages, (oldValue, newValue) => {
+  setTimeout(() => {
+    changeScroll();
+  }, 100);
 })
+
 
 const newMessage = ref("");
 
@@ -88,6 +54,7 @@ onBeforeRouteUpdate(async (to, from) => {
   if (to.params.username !== from.params.username) {
     recipient.value = to.params.username;
   }
+  changeScroll();
 })
 
 </script>
@@ -113,10 +80,6 @@ onBeforeRouteUpdate(async (to, from) => {
       <my-button style="margin-top: 15px; margin-left: 5px;" @click="sendMessage" >Send message</my-button>
     </div>
   </form>
-
-  <div>
-    <my-button @click="checkHeight">Check</my-button>
-  </div>
 
 </template>
 

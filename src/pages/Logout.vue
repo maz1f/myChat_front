@@ -10,12 +10,11 @@ const logout = async() => {
     const response = await axios.post('/customLogout', {
       "token": `${localStorage.refresh_token}`
     });
-    console.log(response);
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("refresh_token")
-    localStorage.isAuth = false;
-    localStorage.name = "Anonimus";
-    console.log("Logout is complete");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("name");
+    localStorage.removeItem("isAuth");
+    localStorage.removeItem("users");
     location.reload();
   } catch(e) {
     alert(e)

@@ -12,17 +12,17 @@ const login = async () => {
       "password": password.value
     });
     axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+
     localStorage.access_token = response.data.token;
     localStorage.refresh_token = response.data.refreshToken;
     localStorage.isAuth = true;
     localStorage.name = VueJwtDecode.decode(localStorage.access_token).sub;
+
     const chats = await axios.get('getChats', {});
-    console.log(chats.data.users);
     localStorage.users = chats.data.users;
-    console.log(`${localStorage.access_token} \n ${localStorage.refresh_token}`)
     location.reload();
   } catch(e) {
-    alert(e.response.data.message)
+    console.log(e.response.data.message);
   }
   await router.push('/');
 }
