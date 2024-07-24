@@ -3,7 +3,6 @@
 import MyButton from "@/components/UI/MyButton.vue";
 import router from "@/router/router.js";
 import {store} from "@/store/store.js";
-
 const clickLogo = () => {
   const elements = document.getElementsByClassName("chatPreview");
   for (const el of elements) {

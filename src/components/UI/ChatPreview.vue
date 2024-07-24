@@ -24,7 +24,7 @@ defineProps({
   width: 100%;
   display: inline-block;
   cursor: pointer;
-  padding: 10px 40px;
+  padding: 10px;
   line-height: 34px;
   border: 1px solid #999;
   user-select: none;

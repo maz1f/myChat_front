@@ -5,12 +5,13 @@ import {onMounted, onUnmounted, ref} from "vue";
 import Chats from "@/components/Chats.vue";
 import {store} from "@/store/store.js";
 import axios from "axios";
+import Notifications from "@/components/UI/Notifications.vue";
 
 const isAuth = ref(localStorage.isAuth);
 
 isAuth.value == null
     ? (store.dispatch('setAuth', false), store.dispatch('setName', 'Anonimus'))
-    : (store.dispatch('setAuth', true), store.dispatch('setName', localStorage.name), store.dispatch('setChats', localStorage.users.split(',')));
+    : (store.dispatch('setAuth', true), store.dispatch('setName', localStorage.name));
 
 const refreshToken = async () => {
   try {
@@ -27,6 +28,7 @@ const refreshToken = async () => {
 onMounted(async () => {
   await refreshToken();
   await store.dispatch('openWebSocketConnection');
+  await store.dispatch('setNotifications', document.querySelector('.notifications'));
 })
 
 onUnmounted(() => {
@@ -46,6 +48,7 @@ onUnmounted(() => {
         <RouterView></RouterView>
       </div>
     </div>
+    <notifications/>
   </div>
 
   <main>
